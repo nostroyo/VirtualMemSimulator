@@ -1,13 +1,8 @@
 //---------------------------------------------------------------------------
 
-#pragma hdrstop
-
 #include "PhysicalMemory.h"
 #include <stdio.h>
 #include <string.h>
-
-#define PHYSICAL_MEMORY_SIZE 32 * 1024
-#define PAGE_SIZE 4 * 1024
 
 PPhysical_Memory Physical_Memory_Create()
 {
@@ -17,7 +12,7 @@ PPhysical_Memory Physical_Memory_Create()
 		GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL, OPEN_ALWAYS, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
-	if (INVALID_HANDLE_VALUE == self->hPhysicalMemFile || INVALID_HANDLE_VALUE == self->hPhysicalMemFile) {
+	if (INVALID_HANDLE_VALUE == self->hPhysicalMemFile) {
 		printf("Error à la création des fichiers error code : %lu", GetLastError());
 		return NULL;
 	}
@@ -63,4 +58,3 @@ void Physical_Memory_WriteMem(PPhysical_Memory self, UINT16 address, LPCVOID pBu
 	memcpy((PUINT8) self->pPhysicalMem + address, pBufferToWrite, length);
 }
 
-#pragma package(smart_init)

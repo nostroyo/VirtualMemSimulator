@@ -1,8 +1,8 @@
-#pragma hdrstop
-
 #include <string.h>
 
 #include "PageTable.h"
+
+#include "PhysicalMemory.h"
 
 PPageTableObject pageTable_Create(unsigned char tableSize)
 {
@@ -40,18 +40,17 @@ PPageTableEntry pageTable_GetEntry(PPageTableObject self, unsigned char index)
 
 bool pageTable_AddEntryAtIndex(PPageTableObject self, unsigned char index, PPageTableEntry entry)
 {
+	bool result = false;
 	if (index < self->nbPageTableEntry)
 	{
 		if (!pageTable_GetEntry(self, index))
 		{
-            self->pPageTable[index] = entry;
+			self->pPageTable[index] = entry;
+			result = true;
 		}
-		else
-			return false;
 	}
-	else
-		return false;
+	return result;
 }
 
 
-#pragma package(smart_init)
+
